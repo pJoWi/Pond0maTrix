@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pond-scout</title>
+<style>
+  :root { --bg:#07090f; --panel:#0d1220; --line:#1b2440; --txt:#d7e1ff; --mut:#7b88b3; --acc:#25f0c8; --acc2:#ff3fa4; --warn:#ffb020; --bad:#ff4d6d; --ok:#3dff8f; }
+  * { box-sizing:border-box }
+  body { margin:0; background:var(--bg); color:var(--txt); font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace }
+  header { display:flex; gap:16px; align-items:center; padding:10px 16px; border-bottom:1px solid var(--line); background:linear-gradient(90deg,#0d1220,#0b1a24); position:sticky; top:0; z-index:5 }
+  header h1 { font-size:15px; margin:0; letter-spacing:.12em; color:var(--acc); text-shadow:0 0 12px rgba(37,240,200,.6) }
+  header .st { color:var(--mut) } header .dot { width:8px; height:8px; border-radius:50%; background:var(--bad); display:inline-block; margin-right:6px } header .dot.on { background:var(--ok); box-shadow:0 0 8px var(--ok) }
+  .filters { margin-left:auto; display:flex; gap:8px; align-items:center }
+  select, input, button { background:#0a0f1c; color:var(--txt); border:1px solid var(--line); border-radius:4px; padding:5px 8px; font:inherit }
+  button { cursor:pointer } button:hover { border-color:var(--acc) }
+  main { display:grid; grid-template-columns: 1fr 380px; gap:0; height:calc(100vh - 46px) }
+  .tbl { overflow:auto } table { border-collapse:collapse; width:100% } th, td { padding:6px 10px; border-bottom:1px solid var(--line); white-space:nowrap; text-align:left }
+  th { position:sticky; top:0; background:var(--panel); color:var(--mut); font-weight:500; cursor:pointer; user-select:none }
+  tr:hover td { background:#0f1730 }
+  .score { font-weight:700; padding:2px 8px; border-radius:3px; display:inline-block; min-width:36px; text-align:center }
+  .s-hi { background:rgba(61,255,143,.15); color:var(--ok) } .s-mid { background:rgba(255,176,32,.15); color:var(--warn) } .s-lo { background:rgba(123,136,179,.15); color:var(--mut) } .s-zero { background:rgba(255,77,109,.15); color:var(--bad) }
+  .tag { font-size:10px; padding:1px 5px; border-radius:3px; border:1px solid var(--line); color:var(--mut); margin-left:4px }
+  .tag.b { color:var(--acc2); border-color:var(--acc2) } .tag.v { color:var(--acc); border-color:var(--acc) } .tag.bond { color:var(--ok); border-color:var(--ok) } .tag.w { color:var(--warn); border-color:var(--warn) }
+  .up { color:var(--ok) } .dn { color:var(--bad) }
+  aside { border-left:1px solid var(--line); display:flex; flex-direction:column; min-height:0 }
+  aside h2 { font-size:12px; letter-spacing:.1em; color:var(--mut); margin:0; padding:10px 12px; border-bottom:1px solid var(--line) }
+  #alerts { overflow:auto; flex:1 } .al { padding:8px 12px; border-bottom:1px solid var(--line) } .al b { color:var(--acc) } .al .k { color:var(--acc2) } .al small { color:var(--mut) }
+  #detail { border-top:1px solid var(--line); padding:10px 12px; max-height:45%; overflow:auto } #detail:empty { display:none }
+  #detail ul { margin:6px 0; padding-left:16px } #detail li { color:var(--mut) } #detail a { color:var(--acc) }
+  .links a { margin-right:10px; color:var(--acc); text-decoration:none } .links a:hover { text-decoration:underline }
+  .row-actions button { padding:2px 6px; font-size:11px }
+  canvas { width:100%; height:80px; display:block; margin-top:6px; background:#0a0f1c; border:1px solid var(--line) }
+</style>
+</head>
+<body>
+<header>
+  <h1>POND-SCOUT</h1>
+  <span class="st"><span class="dot" id="dot"></span><span id="status">connecting…</span></span>
+  <div class="filters">
+    <label>stage <select id="fStage"><option value="">all</option><option value="curve">curve</option><option value="bonded">bonded</option></select></label>
+    <label>min score <input id="fScore" type="number" value="0" style="width:60px"></label>
+    <label><input id="fWatch" type="checkbox"> watchlist</label>
+    <label>size (SOL) <input id="fSize" type="number" value="0.25" step="0.05" style="width:70px"></label>
+    <button id="refresh">refresh</button>
+  </div>
+</header>
+<main>
+  <div class="tbl">
+    <table>
+      <thead><tr>
+        <th data-k="score">score</th><th data-k="name">token</th><th data-k="created_at">age</th><th data-k="stage">stage</th>
+        <th data-k="trix_mcap">mcap</th><th data-k="trix_change24">24h</th><th data-k="liquidity_usd">liq</th><th data-k="vol24_usd">vol24</th>
+        <th>flow</th><th data-k="lp_locked_pct">LP</th><th data-k="top10_pct">top10</th><th data-k="creator_username">creator</th><th></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <aside>
+    <h2>ALERTS</h2>
+    <div id="alerts"></div>
+    <div id="detail"></div>
+  </aside>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+let tokens = [], sortKey = "score", sortDir = -1, cfg = {};
+const fmt = (n) => n == null || !isFinite(n) ? "—" : n >= 1e6 ? "$" + (n/1e6).toFixed(2) + "M" : n >= 1e3 ? "$" + (n/1e3).toFixed(1) + "K" : "$" + n.toFixed(0);
+const age = (iso) => { const m = (Date.now() - Date.parse(iso)) / 60000; return m < 60 ? m.toFixed(0) + "m" : m < 1440 ? (m/60).toFixed(1) + "h" : (m/1440).toFixed(1) + "d"; };
+const pct = (n) => n == null ? "—" : `<span class="${n >= 0 ? "up" : "dn"}">${n.toFixed(1)}%</span>`;
+const sc = (s) => `<span class="score ${s >= cfg.alertScoreMin ? "s-hi" : s >= 40 ? "s-mid" : s > 0 ? "s-lo" : "s-zero"}">${s}</span>`;
+
+async function load() {
+  cfg = await (await fetch("/api/config")).json();
+  const q = new URLSearchParams();
+  if ($("#fStage").value) q.set("stage", $("#fStage").value);
+  q.set("minScore", $("#fScore").value || 0);
+  if ($("#fWatch").checked) q.set("watch", "1");
+  tokens = await (await fetch("/api/tokens?" + q)).json();
+  render();
+  const al = await (await fetch("/api/alerts?limit=80")).json();
+  $("#alerts").innerHTML = al.map(alertHtml).join("");
+}
+function alertHtml(a) {
+  return `<div class="al" data-mint="${a.mint}"><small>${a.ts.slice(11,19)}</small> <span class="k">${a.kind}</span><br><b>${esc(a.title.split(" · ")[1] || "")}</b> ${esc(a.title.split(" · ").slice(2).join(" · "))}<br><small>${esc(a.body)}</small></div>`;
+}
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+function render() {
+  const rows = [...tokens].sort((a, b) => { const x = a[sortKey], y = b[sortKey]; return (x == null) - (y == null) || (x > y ? 1 : x < y ? -1 : 0) * sortDir; });
+  $("#rows").innerHTML = rows.map((t) => `<tr data-mint="${t.mint}">
+    <td>${sc(t.score)}</td>
+    <td><b>${esc(t.name)}</b> <span style="color:var(--mut)">$${esc(t.symbol)}</span>${t.boosted ? '<span class="tag b">BOOST</span>' : ""}${t.coin_verified ? '<span class="tag v">VERIFIED</span>' : ""}${t.watch ? '<span class="tag w">WATCH</span>' : ""}</td>
+    <td>${age(t.created_at)}</td>
+    <td>${t.stage === "bonded" ? '<span class="tag bond">bonded</span>' : '<span class="tag">curve</span>'}</td>
+    <td>${fmt(t.trix_mcap)}</td><td>${pct(t.trix_change24)}</td><td>${fmt(t.liquidity_usd)}</td><td>${fmt(t.vol24_usd ?? t.trix_vol24)}</td>
+    <td>${t.buys24 != null ? `<span class="up">${t.buys24}</span>/<span class="dn">${t.sells24}</span>` : "—"}</td>
+    <td>${t.lp_locked_pct != null ? t.lp_locked_pct.toFixed(0) + "%" : "—"}</td>
+    <td>${t.top10_pct != null ? t.top10_pct.toFixed(0) + "%" : "—"}</td>
+    <td>${esc(t.creator_username ?? "?")}${t.creator_verified ? " ✓" : ""} <small style="color:var(--mut)">(${Math.max(0, t.creator_launches - 1)} prior, ${t.creator_dead_launches} dead)</small></td>
+    <td class="row-actions"><button data-w="${t.watch ? 0 : 1}">${t.watch ? "unwatch" : "watch"}</button></td>
+  </tr>`).join("");
+}
+async function showDetail(mint) {
+  const t = await (await fetch("/api/token/" + mint)).json();
+  const size = Number($("#fSize").value || 0.25);
+  const reasons = JSON.parse(t.score_reasons || "[]");
+  const jup = `https://jup.ag/swap/SOL-${t.mint}`;
+  $("#detail").innerHTML = `<div><b>${esc(t.name)}</b> $${esc(t.symbol)} ${sc(t.score)} <small style="color:var(--mut)">${t.mint}</small></div>
+    <div style="color:var(--mut);margin:4px 0">${esc(t.description ?? "")}</div>
+    <div class="links">
+      <a target="_blank" href="${cfg.trixBase}/coin/${t.mint}">TRiX${t.stage === "curve" ? " (buy on curve)" : ""}</a>
+      ${t.stage === "bonded" ? `<a target="_blank" href="${jup}">Jupiter</a><a target="_blank" href="https://dexscreener.com/solana/${t.pair_address ?? t.mint}">DexScreener</a>` : ""}
+      <a target="_blank" href="https://rugcheck.xyz/tokens/${t.mint}">RugCheck</a>
+      <a target="_blank" href="https://solscan.io/token/${t.mint}">Solscan</a>
+    </div>
+    <div id="sizecheck" style="margin-top:6px;color:var(--mut)">${t.stage === "bonded" ? "checking impact for " + size + " SOL…" : "on curve — buy through the TRiX page (Privy wallet); the CLI only trades bonded tokens."}</div>
+    <div style="margin-top:6px;color:var(--mut)">CLI: <code>npm run cli -- buy ${t.mint} ${size}</code></div>
+    <ul>${reasons.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>
+    <canvas id="spark" width="360" height="80"></canvas>`;
+  drawSpark(t.snapshots || []);
+  if (t.stage === "bonded") {
+    try {
+      const q = await (await fetch(`/api/quote?mint=${t.mint}&sol=${size}`)).json();
+      const imp = (q.priceImpactPct * 100);
+      $("#sizecheck").innerHTML = q.error ? "quote error: " + esc(q.error) : `${size} SOL → impact <b class="${imp > 10 ? "dn" : imp > 4 ? "" : "up"}">${imp.toFixed(2)}%</b> via ${esc(q.route.join(" › "))}${imp > 10 ? " — too big for this pool" : ""}`;
+    } catch (e) { $("#sizecheck").textContent = "quote unavailable"; }
+  }
+}
+function drawSpark(snaps) {
+  const c = $("#spark"); if (!c) return; const ctx = c.getContext("2d");
+  const pts = snaps.map((s) => s.mcap).filter((x) => x != null);
+  if (pts.length < 2) return;
+  const min = Math.min(...pts), max = Math.max(...pts), W = c.width, H = c.height;
+  ctx.strokeStyle = "#25f0c8"; ctx.lineWidth = 1.5; ctx.beginPath();
+  pts.forEach((v, i) => { const x = (i / (pts.length - 1)) * W, y = H - ((v - min) / Math.max(1, max - min)) * (H - 8) - 4; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+  ctx.stroke(); ctx.fillStyle = "#7b88b3"; ctx.font = "10px monospace"; ctx.fillText(fmt(min), 4, H - 4); ctx.fillText(fmt(max), 4, 12);
+}
+
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest("button[data-w]");
+  if (btn) { const mint = btn.closest("tr").dataset.mint; await fetch("/api/watch", { method: "POST", body: JSON.stringify({ mint, on: btn.dataset.w === "1" }) }); return load(); }
+  const tr = e.target.closest("tr[data-mint], .al[data-mint]");
+  if (tr) showDetail(tr.dataset.mint);
+  const th = e.target.closest("th[data-k]");
+  if (th) { if (sortKey === th.dataset.k) sortDir *= -1; else { sortKey = th.dataset.k; sortDir = -1; } render(); }
+});
+["#fStage", "#fScore", "#fWatch"].forEach((s) => $(s).addEventListener("change", load));
+$("#refresh").addEventListener("click", load);
+
+const es = new EventSource("/events");
+es.onopen = () => { $("#dot").classList.add("on"); $("#status").textContent = "live"; };
+es.onerror = () => { $("#dot").classList.remove("on"); $("#status").textContent = "reconnecting…"; };
+es.addEventListener("alert", (ev) => { const a = JSON.parse(ev.data); $("#alerts").insertAdjacentHTML("afterbegin", alertHtml(a)); if (a.kind === "SCORE_PASS" || a.kind === "BONDED") beep(); });
+es.addEventListener("token", (ev) => { const t = JSON.parse(ev.data); const i = tokens.findIndex((x) => x.mint === t.mint); if (i >= 0) tokens[i] = t; else tokens.unshift(t); render(); });
+function beep() { try { const a = new AudioContext(), o = a.createOscillator(), g = a.createGain(); o.frequency.value = 880; g.gain.value = 0.05; o.connect(g).connect(a.destination); o.start(); o.stop(a.currentTime + 0.15); } catch {} }
+load();
+</script>
+</body>
+</html>

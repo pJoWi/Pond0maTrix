@@ -1,0 +1,25 @@
+{
+  "name": "pond-scout",
+  "version": "0.1.0",
+  "description": "Scanner + scoring + alert dashboard for TRiX / Pond0x ecosystem launches on Solana, with a manual Jupiter buy/sell CLI.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "scan:once": "tsx src/index.ts --once",
+    "cli": "tsx src/cli.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "selftest": "tsx src/selftest.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

@@ -61,17 +61,17 @@ export const initialNodes: Node[] = [
   zone("z-strategy", 1660, 760, 320, 900, { label: "PLAYBOOK", sub: "five strategies, one edge", category: "strategy" }),
 
   // ------------------------------------------------------------- pond0x core
-  card("jimmy", 130, 170, {
-    title: "Pond0x / Jimmy Edgar",
+  card("pond0x", 130, 170, {
+    title: "Pond0x — Hwonder & Pauly0x",
     tag: "ORIGIN",
-    caption: "Artist-led crypto ecosystem; culture is the moat.",
+    caption: "The ecosystem project of Hwonder and Pauly0x; culture is the moat.",
     category: "pond0x",
     icon: "sparkles",
     blurb:
-      "Pond0x is the ecosystem founded by electronic musician Jimmy Edgar. Its products (swap, mining, launchpad) share one audience — the Pond community — and one meta-strategy: attention compounds across everything the ecosystem ships.",
+      "Pond0x is the ecosystem project of Hwonder and Pauly0x. Its products (swap, mining) share one audience — the Pond community — and one meta-strategy: attention compounds across everything the ecosystem ships. TRiX, Jimmy Edgar's launchpad, plugs into that same audience.",
     points: [
       "Founder attention (a mention, a boost) is a real price catalyst inside the ecosystem",
-      "TRiX is the ecosystem's launchpad — new tokens inherit the Pond audience on day one",
+      "New TRiX tokens inherit the Pond audience on day one",
       "Culture-first: memes and mining rituals drive usage, not roadmaps",
     ],
     link: { label: "pond0x.com", url: "https://pond0x.com" },
@@ -104,6 +104,21 @@ export const initialNodes: Node[] = [
   }),
 
   // ---------------------------------------------------------- trix lifecycle
+  card("jimmy", 545, 430, {
+    title: "Jimmy Edgar — void.solutions",
+    tag: "BUILDER",
+    caption: "Electronic musician; creator of void.solutions and trix.market.",
+    category: "trix",
+    icon: "wand",
+    blurb:
+      "Jimmy Edgar is the electronic musician and artist behind void.solutions and the TRiX launchpad (trix.market). He builds and operates the platform the whole lifecycle on this map runs on — and his attention is itself a catalyst for tokens launched there.",
+    points: [
+      "Creator of trix.market, the launchpad in the Pond0x ecosystem",
+      "void.solutions is his creative/tech studio",
+      "A Jimmy mention can start the attention flywheel for a launch",
+    ],
+    link: { label: "void.solutions", url: "https://void.solutions" },
+  }),
   card("creator", 600, 170, {
     title: "Creator",
     tag: "ACTOR",
@@ -147,7 +162,7 @@ export const initialNodes: Node[] = [
       "Curve tokens still get RugCheck'd for mint/freeze authority",
     ],
   }),
-  card("attention", 750, 430, {
+  card("attention", 830, 430, {
     title: "Attention Layer",
     tag: "SIGNAL",
     caption: "Paid boosts + coin verification = who the crowd is looking at.",
@@ -417,10 +432,11 @@ function routed(e: Edge): Edge {
 
 const rawEdges: Edge[] = [
   // pond0x internals → attention feeds the launchpad
-  edge("e-jimmy-pndc", "jimmy", "pndc", "flow", "created"),
-  edge("e-jimmy-mining", "jimmy", "mining", "flow", "operates"),
+  edge("e-pond0x-pndc", "pond0x", "pndc", "flow", "created"),
+  edge("e-pond0x-mining", "pond0x", "mining", "flow", "operates"),
   edge("e-pndc-mining", "pndc", "mining", "flow"),
   edge("e-mining-attention", "mining", "attention", "flow", "MINE HARDER crowd", true),
+  edge("e-jimmy-attention", "jimmy", "attention", "trix", "runs boosts · verify"),
 
   // trix lifecycle
   edge("e-creator-launch", "creator", "launch", "trix", "deploys", true),

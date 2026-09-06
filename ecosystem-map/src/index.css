@@ -1,0 +1,304 @@
+@import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   POND0MATRIX theme tokens.
+   Dark = "the pond at night": abyssal green-black + bioluminescent accents.
+   Light = "lotus paper": pale sage, same accent hues deepened for contrast.
+   Everything (Tailwind utilities, custom nodes, React Flow canvas) reads
+   these variables, so flipping .dark restyles the whole canvas instantly.
+--------------------------------------------------------------------------- */
+:root {
+  --bg: #eef3ec;
+  --bg-glow-a: rgba(24, 160, 96, 0.10);
+  --bg-glow-b: rgba(34, 150, 190, 0.08);
+  --surface: #ffffff;
+  --surface-2: #e4ece3;
+  --line: rgba(18, 60, 40, 0.14);
+  --line-strong: rgba(18, 60, 40, 0.28);
+  --text: #122019;
+  --muted: #5b7266;
+
+  --c-pond0x: #0e8f57;
+  --c-trix: #0a7f9e;
+  --c-infra: #4f5fc0;
+  --c-scout: #a3690a;
+  --c-strategy: #a63dbb;
+  --c-risk: #c23434;
+
+  --halo-pond0x: rgba(14, 143, 87, 0.14);
+  --halo-trix: rgba(10, 127, 158, 0.14);
+  --halo-infra: rgba(79, 95, 192, 0.13);
+  --halo-scout: rgba(163, 105, 10, 0.14);
+  --halo-strategy: rgba(166, 61, 187, 0.13);
+  --halo-risk: rgba(194, 52, 52, 0.13);
+
+  --font-display: "Unbounded", sans-serif;
+  --font-body: "Schibsted Grotesk", sans-serif;
+  --font-mono: "Fragment Mono", monospace;
+
+  /* React Flow canvas variables */
+  --xy-background-color: transparent;
+  --xy-edge-stroke: var(--line-strong);
+  --xy-edge-stroke-width: 1.5;
+  --xy-attribution-background-color: transparent;
+  --xy-minimap-background-color: var(--surface);
+  --xy-minimap-mask-background-color: color-mix(in srgb, var(--bg) 72%, transparent);
+  --xy-minimap-node-background-color: var(--line-strong);
+  --xy-controls-button-background-color: var(--surface);
+  --xy-controls-button-background-color-hover: var(--surface-2);
+  --xy-controls-button-color: var(--muted);
+  --xy-controls-button-color-hover: var(--text);
+  --xy-controls-button-border-color: var(--line);
+}
+
+.dark {
+  --bg: #050f0b;
+  --bg-glow-a: rgba(62, 242, 155, 0.07);
+  --bg-glow-b: rgba(56, 225, 240, 0.05);
+  --surface: #0a1a13;
+  --surface-2: #0e2419;
+  --line: rgba(140, 255, 200, 0.10);
+  --line-strong: rgba(140, 255, 200, 0.22);
+  --text: #d9efe4;
+  --muted: #6f8f81;
+
+  --c-pond0x: #3ef29b;
+  --c-trix: #38e1f0;
+  --c-infra: #96a7ff;
+  --c-scout: #ffc857;
+  --c-strategy: #f07df2;
+  --c-risk: #ff6b6b;
+
+  --halo-pond0x: rgba(62, 242, 155, 0.16);
+  --halo-trix: rgba(56, 225, 240, 0.15);
+  --halo-infra: rgba(150, 167, 255, 0.14);
+  --halo-scout: rgba(255, 200, 87, 0.14);
+  --halo-strategy: rgba(240, 125, 242, 0.15);
+  --halo-risk: rgba(255, 107, 107, 0.14);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Atmosphere: bioluminescent glow pools + film grain over the whole app */
+.atmosphere::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(52rem 36rem at 12% -8%, var(--bg-glow-a), transparent 65%),
+    radial-gradient(46rem 32rem at 96% 30%, var(--bg-glow-b), transparent 62%),
+    radial-gradient(60rem 44rem at 45% 118%, var(--bg-glow-a), transparent 68%);
+  z-index: 0;
+}
+.atmosphere::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  z-index: 50;
+}
+
+/* ---------------------------------------------------------------------------
+   Nodes
+--------------------------------------------------------------------------- */
+.pmx-node {
+  --accent: var(--c-pond0x);
+  --halo: var(--halo-pond0x);
+  width: 236px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--accent) 9%, var(--surface)), var(--surface) 55%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent),
+    0 14px 34px -18px rgba(0, 0, 0, 0.55),
+    0 0 26px -8px var(--halo);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, opacity 0.3s ease, filter 0.3s ease;
+  animation: node-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+.pmx-node:hover {
+  border-color: color-mix(in srgb, var(--accent) 62%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 18px 40px -18px rgba(0, 0, 0, 0.6),
+    0 0 42px -6px var(--halo);
+}
+.pmx-node.selected {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 18px 44px -16px rgba(0, 0, 0, 0.65),
+    0 0 52px -4px var(--halo);
+}
+.pmx-node.dimmed {
+  opacity: 0.16;
+  filter: saturate(0.4);
+}
+@keyframes node-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.pmx-node .xy-handle,
+.react-flow__handle {
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--accent, var(--line-strong));
+  background: var(--surface);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.react-flow__node:hover .react-flow__handle,
+.react-flow__node.selected .react-flow__handle {
+  opacity: 0.9;
+}
+
+/* Zones: large translucent territory panels behind the graph */
+.pmx-zone {
+  --accent: var(--c-pond0x);
+  height: 100%;
+  border-radius: 26px;
+  border: 1.5px dashed color-mix(in srgb, var(--accent) 26%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 5%, transparent), transparent 70%);
+  animation: zone-in 0.8s ease both;
+}
+@keyframes zone-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.pmx-zone-label {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.34em;
+  color: color-mix(in srgb, var(--accent) 78%, var(--text));
+  opacity: 0.75;
+}
+.pmx-zone-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------------------
+   Edges
+--------------------------------------------------------------------------- */
+.react-flow__edge.dimmed { opacity: 0.08; }
+.react-flow__edge-path { transition: opacity 0.3s ease; }
+
+.edge-flow .react-flow__edge-path {
+  stroke: color-mix(in srgb, var(--c-pond0x) 70%, var(--line-strong));
+  stroke-width: 2;
+}
+.edge-trix .react-flow__edge-path {
+  stroke: color-mix(in srgb, var(--c-trix) 75%, var(--line-strong));
+  stroke-width: 2;
+}
+.edge-data .react-flow__edge-path {
+  stroke: color-mix(in srgb, var(--c-infra) 65%, var(--line-strong));
+  stroke-width: 1.4;
+  stroke-dasharray: 5 4;
+}
+.edge-scout .react-flow__edge-path {
+  stroke: color-mix(in srgb, var(--c-scout) 70%, var(--line-strong));
+  stroke-width: 1.6;
+}
+.edge-strategy .react-flow__edge-path {
+  stroke: color-mix(in srgb, var(--c-strategy) 78%, var(--line-strong));
+  stroke-width: 1.6;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+.edge-risk .react-flow__edge-path {
+  stroke: color-mix(in srgb, var(--c-risk) 76%, var(--line-strong));
+  stroke-width: 1.6;
+  stroke-dasharray: 7 3;
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  animation: dash-drift 0.9s linear infinite;
+}
+@keyframes dash-drift {
+  to { stroke-dashoffset: -10; }
+}
+
+.react-flow__edge-textbg { fill: var(--surface); }
+.react-flow__edge-text {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+
+/* ---------------------------------------------------------------------------
+   Chrome: controls, minimap, panels
+--------------------------------------------------------------------------- */
+.react-flow__controls {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--line);
+}
+.react-flow__minimap {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.5);
+}
+.react-flow__attribution {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.react-flow__attribution a { color: var(--muted); }
+
+::selection {
+  background: color-mix(in srgb, var(--c-pond0x) 35%, transparent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}

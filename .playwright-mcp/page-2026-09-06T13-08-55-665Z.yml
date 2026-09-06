@@ -1,0 +1,285 @@
+- generic [ref=f1e3]:
+  - application [ref=f1e4]:
+    - generic [ref=f1e6]:
+      - generic:
+        - generic:
+          - img:
+            - group "Edge from jimmy to pndc" [ref=f1e757] [cursor=pointer]:
+              - generic [ref=f1e760]: created
+          - img:
+            - group "Edge from jimmy to mining" [ref=f1e762] [cursor=pointer]:
+              - generic [ref=f1e765]: operates
+          - img:
+            - group "Edge from pndc to mining" [ref=f1e767] [cursor=pointer]
+          - img:
+            - group "Edge from mining to attention" [ref=f1e770] [cursor=pointer]:
+              - generic [ref=f1e773]: MINE HARDER crowd
+          - img:
+            - group "Edge from creator to launch" [ref=f1e775] [cursor=pointer]:
+              - generic [ref=f1e776]: deploys
+          - img:
+            - group "Edge from launch to curve" [ref=f1e778] [cursor=pointer]:
+              - generic [ref=f1e779]: opens curve
+          - img:
+            - group "Edge from attention to curve" [ref=f1e781] [cursor=pointer]:
+              - generic [ref=f1e784]: drives buys
+          - img:
+            - group "Edge from curve to bond" [ref=f1e786] [cursor=pointer]:
+              - generic [ref=f1e787]: graduates
+          - img:
+            - group "Edge from bond to raydium" [ref=f1e789] [cursor=pointer]:
+              - generic [ref=f1e792]: LP migrates
+          - img:
+            - group "Edge from solana to raydium"
+          - img:
+            - group "Edge from raydium to jupiter" [ref=f1e794] [cursor=pointer]:
+              - generic [ref=f1e795]: routes
+          - img:
+            - group "Edge from raydium to dexscreener" [ref=f1e797] [cursor=pointer]:
+              - generic [ref=f1e800]: pairs
+          - img:
+            - group "Edge from launch to scanner" [ref=f1e802] [cursor=pointer]:
+              - generic [ref=f1e805]: poll /api 30s
+          - img:
+            - group "Edge from attention to scanner" [ref=f1e807] [cursor=pointer]:
+              - generic [ref=f1e810]: boosts · verify
+          - img:
+            - group "Edge from dexscreener to enrich" [ref=f1e812] [cursor=pointer]:
+              - generic [ref=f1e815]: bond detection
+          - img:
+            - group "Edge from rugcheck to enrich" [ref=f1e817] [cursor=pointer]:
+              - generic [ref=f1e820]: safety audit
+          - img:
+            - group "Edge from helius to cli" [ref=f1e822] [cursor=pointer]:
+              - generic [ref=f1e825]: send + confirm
+          - img:
+            - group "Edge from scanner to scoring" [ref=f1e827] [cursor=pointer]:
+              - generic [ref=f1e828]: upsert + rescore
+          - img:
+            - group "Edge from enrich to scoring" [ref=f1e830] [cursor=pointer]:
+              - generic [ref=f1e833]: market + safety
+          - img:
+            - group "Edge from scanner to db" [ref=f1e835] [cursor=pointer]
+          - img:
+            - group "Edge from scoring to alerts" [ref=f1e838] [cursor=pointer]:
+              - generic [ref=f1e839]: SCORE_PASS ≥ 65
+          - img:
+            - group "Edge from alerts to dashboard" [ref=f1e841] [cursor=pointer]:
+              - generic [ref=f1e842]: SSE
+          - img:
+            - group "Edge from db to dashboard" [ref=f1e844] [cursor=pointer]
+          - img:
+            - group "Edge from wallet to cli" [ref=f1e847] [cursor=pointer]:
+              - generic [ref=f1e848]: signs
+          - img:
+            - group "Edge from cli to jupiter" [ref=f1e850] [cursor=pointer]:
+              - generic [ref=f1e853]: manual buy / sell
+          - img:
+            - group "Edge from dashboard to cli" [ref=f1e855] [cursor=pointer]:
+              - generic [ref=f1e856]: human decides
+          - img:
+            - group "Edge from s1 to curve" [ref=f1e858] [cursor=pointer]:
+              - generic [ref=f1e861]: enter early window
+          - img:
+            - group "Edge from s2 to bond" [ref=f1e863] [cursor=pointer]:
+              - generic [ref=f1e866]: T+0…3h
+          - img:
+            - group "Edge from s3 to scoring" [ref=f1e868] [cursor=pointer]:
+              - generic [ref=f1e871]: hard zeros
+          - img:
+            - group "Edge from s3 to rugcheck" [ref=f1e873] [cursor=pointer]
+          - img:
+            - group "Edge from s4 to creator" [ref=f1e876] [cursor=pointer]:
+              - generic [ref=f1e879]: reputation filter
+          - img:
+            - group "Edge from s5 to alerts" [ref=f1e881] [cursor=pointer]:
+              - generic [ref=f1e884]: MCAP_2X
+          - img:
+            - group "Edge from s5 to cli" [ref=f1e886] [cursor=pointer]:
+              - generic [ref=f1e889]: partial sells
+        - generic:
+          - generic [ref=f1e146]:
+            - generic [ref=f1e147]: POND0X CORE
+            - generic [ref=f1e148]: the ecosystem gravity well
+          - generic [ref=f1e151]:
+            - generic [ref=f1e152]: TRIX LAUNCHPAD
+            - generic [ref=f1e153]: trix.market · launch lifecycle
+          - generic [ref=f1e156]:
+            - generic [ref=f1e157]: SOLANA RAILS
+            - generic [ref=f1e158]: external infrastructure
+          - generic [ref=f1e161]:
+            - generic [ref=f1e162]: POND-SCOUT
+            - generic [ref=f1e163]: this repo · scanner → score → act
+          - generic [ref=f1e166]:
+            - generic [ref=f1e167]: PLAYBOOK
+            - generic [ref=f1e168]: five strategies, one edge
+          - group [ref=f1e169]:
+            - generic [ref=f1e179]:
+              - generic [ref=f1e180]: ORIGIN
+              - generic [ref=f1e186]: Pond0x / Jimmy Edgar
+              - paragraph [ref=f1e187]: Artist-led crypto ecosystem; culture is the moat.
+          - group [ref=f1e188]:
+            - generic [ref=f1e198]:
+              - generic [ref=f1e199]: TOKEN
+              - generic [ref=f1e207]: $PNDC · Pond Coin
+              - paragraph [ref=f1e208]: The ecosystem's flagship token and loyalty flywheel.
+          - group [ref=f1e209]:
+            - generic [ref=f1e219]:
+              - generic [ref=f1e220]: DAPP
+              - generic [ref=f1e228]: Swap & Mining — MINE HARDER
+              - paragraph [ref=f1e229]: Fee-generating swap + mining ritual that keeps the crowd engaged daily.
+          - group [ref=f1e230]:
+            - generic [ref=f1e240]:
+              - generic [ref=f1e241]: ACTOR
+              - generic [ref=f1e247]: Creator
+              - paragraph [ref=f1e248]: "TRiX profile: username, verification, points, launch history."
+          - group [ref=f1e249]:
+            - generic [ref=f1e259]:
+              - generic [ref=f1e260]: EVENT
+              - generic [ref=f1e268]: Token Launch
+              - paragraph [ref=f1e269]: New SPL mint appears on trix.market with metadata + curve.
+          - group [ref=f1e270]:
+            - generic [ref=f1e280]:
+              - generic [ref=f1e281]: STAGE 1
+              - generic [ref=f1e287]: Bonding Curve
+              - paragraph [ref=f1e288]: Price discovery on TRiX's curve. Earliest possible entry.
+          - group [ref=f1e289]:
+            - generic [ref=f1e299]:
+              - generic [ref=f1e300]: SIGNAL
+              - generic [ref=f1e306]: Attention Layer
+              - paragraph [ref=f1e307]: Paid boosts + coin verification = who the crowd is looking at.
+          - group [ref=f1e308]:
+            - generic [ref=f1e318]:
+              - generic [ref=f1e319]: STAGE 2 · CATALYST
+              - generic [ref=f1e324]: Bond Event
+              - paragraph [ref=f1e325]: Curve graduates → liquidity migrates to a Raydium pool.
+          - group [ref=f1e326]:
+            - generic [ref=f1e336]:
+              - generic [ref=f1e337]: L1
+              - generic [ref=f1e344]: Solana
+              - paragraph [ref=f1e345]: The settlement layer everything here runs on.
+          - group [active] [ref=f1e346]:
+            - generic [ref=f1e356]:
+              - generic [ref=f1e357]: AMM
+              - generic [ref=f1e364]: Raydium Pool
+              - paragraph [ref=f1e365]: Destination of bonded liquidity; the 'real market' begins here.
+          - group [ref=f1e366]:
+            - generic [ref=f1e376]:
+              - generic [ref=f1e377]: DATA
+              - generic [ref=f1e387]: DexScreener
+              - paragraph [ref=f1e388]: Pair discovery, liquidity, buys/sells, volume.
+          - group [ref=f1e389]:
+            - generic [ref=f1e399]:
+              - generic [ref=f1e400]: ROUTER
+              - generic [ref=f1e407]: Jupiter
+              - paragraph [ref=f1e408]: Swap aggregator — quotes, price impact, execution.
+          - group [ref=f1e409]:
+            - generic [ref=f1e419]:
+              - generic [ref=f1e420]: SAFETY
+              - generic [ref=f1e425]: RugCheck
+              - paragraph [ref=f1e426]: Authorities, LP lock %, holder concentration, risk flags.
+          - group [ref=f1e427]:
+            - generic [ref=f1e437]:
+              - generic [ref=f1e438]: RPC
+              - generic [ref=f1e444]: Helius RPC
+              - paragraph [ref=f1e445]: Balances, transaction send + confirm.
+          - group [ref=f1e446]:
+            - generic [ref=f1e456]:
+              - generic [ref=f1e457]: EVERY 30s
+              - generic [ref=f1e465]: Scan Loop
+              - paragraph [ref=f1e466]: "Polls TRiX: launches, boosts, verifications, prices."
+          - group [ref=f1e467]:
+            - generic [ref=f1e477]:
+              - generic [ref=f1e478]: EVERY 120s
+              - generic [ref=f1e486]: Enrich Loop
+              - paragraph [ref=f1e487]: Refreshes DexScreener + RugCheck per tracked token.
+          - group [ref=f1e488]:
+            - generic [ref=f1e498]:
+              - generic [ref=f1e499]: 0 – 100
+              - generic [ref=f1e505]: Scoring Engine
+              - paragraph [ref=f1e506]: Every rule explicit, every reason in plain English.
+          - group [ref=f1e507]:
+            - generic [ref=f1e517]:
+              - generic [ref=f1e518]: node:sqlite · WAL
+              - generic [ref=f1e525]: SQLite Memory
+              - paragraph [ref=f1e526]: Tokens, alerts, snapshots, kv — zero dependencies.
+          - group [ref=f1e527]:
+            - generic [ref=f1e537]:
+              - generic [ref=f1e538]: 5 KINDS
+              - generic [ref=f1e544]: Alert Bus
+              - paragraph [ref=f1e545]: NEW_LAUNCH · BONDED · BOOSTED · SCORE_PASS · MCAP_2X
+          - group [ref=f1e546]:
+            - generic [ref=f1e556]:
+              - generic [ref=f1e557]: 127.0.0.1:8787
+              - generic [ref=f1e562]: Live Dashboard
+              - paragraph [ref=f1e563]: Score, reasons, size-impact check, one-click links.
+          - group [ref=f1e564]:
+            - generic [ref=f1e574]:
+              - generic [ref=f1e575]: ed25519 · LOCAL
+              - generic [ref=f1e581]: Hot Wallet
+              - paragraph [ref=f1e582]: Base58 key, signs Jupiter txs by hand. Never leaves disk.
+          - group [ref=f1e583]:
+            - generic [ref=f1e593]:
+              - generic [ref=f1e594]: MANUAL ONLY
+              - generic [ref=f1e599]: Trading CLI
+              - paragraph [ref=f1e600]: quote · buy · sell · wallet · score — with hard rails.
+          - group [ref=f1e601]:
+            - generic [ref=f1e611]:
+              - generic [ref=f1e612]: PLAY 01
+              - generic [ref=f1e620]: Early Window Entry
+              - paragraph [ref=f1e621]: Fresh launch, $5K–$250K mcap, before the crowd.
+          - group [ref=f1e622]:
+            - generic [ref=f1e632]:
+              - generic [ref=f1e633]: PLAY 02
+              - generic [ref=f1e638]: Bond Catalyst
+              - paragraph [ref=f1e639]: Buy the graduation — first 3h after Raydium listing.
+          - group [ref=f1e640]:
+            - generic [ref=f1e650]:
+              - generic [ref=f1e651]: PLAY 03 · VETO
+              - generic [ref=f1e656]: Safety Gate
+              - paragraph [ref=f1e657]: "Hard zeros: authorities, test tokens, dust caps."
+          - group [ref=f1e658]:
+            - generic [ref=f1e668]:
+              - generic [ref=f1e669]: PLAY 04
+              - generic [ref=f1e681]: Creator Reputation
+              - paragraph [ref=f1e682]: Back proven builders, fade serial rug launchers.
+          - group [ref=f1e683]:
+            - generic [ref=f1e693]:
+              - generic [ref=f1e694]: PLAY 05
+              - generic [ref=f1e700]: Exit Discipline
+              - paragraph [ref=f1e701]: Watchlist, doubling alerts, partial sells. Plan the exit first.
+    - generic "Control Panel" [ref=f1e702]:
+      - button "Zoom In" [ref=f1e703] [cursor=pointer]
+      - button "Zoom Out" [ref=f1e706] [cursor=pointer]
+      - button "Fit View" [ref=f1e709] [cursor=pointer]
+    - img "Mini Map" [ref=f1e713]
+    - banner:
+      - generic [ref=f1e724]:
+        - heading "POND0MATRIX" [level=1] [ref=f1e725]
+        - paragraph [ref=f1e726]: pond0x × trix ecosystem atlas · strategy overlay
+      - generic [ref=f1e727]:
+        - button "Pond0x core" [ref=f1e728] [cursor=pointer]
+        - button "TRiX lifecycle" [ref=f1e730] [cursor=pointer]
+        - button "Solana rails" [ref=f1e732] [cursor=pointer]
+        - button "pond-scout" [ref=f1e734] [cursor=pointer]
+        - button "Strategy" [ref=f1e736] [cursor=pointer]
+        - button "Risk gates" [ref=f1e738] [cursor=pointer]
+        - button "Fit view" [ref=f1e741] [cursor=pointer]
+        - button "Dive (dark mode)" [ref=f1e913] [cursor=pointer]
+    - link "React Flow attribution" [ref=f1e755] [cursor=pointer]:
+      - /url: https://reactflow.dev/attribution
+      - text: React Flow
+  - complementary [ref=f1e891]:
+    - generic [ref=f1e892]:
+      - generic [ref=f1e894]:
+        - generic [ref=f1e895]:
+          - generic [ref=f1e896]: Strategy · PLAY 05
+          - heading "Exit Discipline" [level=2] [ref=f1e916]
+        - button [ref=f1e899] [cursor=pointer]
+      - generic [ref=f1e903]:
+        - paragraph [ref=f1e904]: Positions join the watchlist on buy. MCAP_2X alerts flag doublings, percentage sells let you de-risk without closing, and the roadmap adds a positions table with take-profit / stop / trailing automation.
+        - generic [ref=f1e905]:
+          - generic [ref=f1e906]: MCAP_2X fires on every watched doubling
+          - generic [ref=f1e909]: sell 50 = take initial off, let the rest ride
+          - generic [ref=f1e917]: "Next step: automated exit loop (positions table)"
+      - generic [ref=f1e912]: NOT FINANCIAL ADVICE · MEMECOINS CAN GO TO ZERO

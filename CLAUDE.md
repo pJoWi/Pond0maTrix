@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Scanner, scoring engine and live alert dashboard for token launches on TRiX (trix.market, the Pond0x-ecosystem launchpad on Solana), plus a manual buy/sell CLI through Jupiter for tokens that have bonded to Raydium. The tool finds and judges launches; the human makes the buy decision (dashboard + CLI execute it).
 
-**Zero runtime dependencies** — Node 22.13+ built-ins only (`node:sqlite`, `node:crypto` ed25519, `fetch`, `node:http`). Dev deps are just `typescript`, `tsx`, `@types/node`. Keep it that way: do not add runtime packages (no `@solana/web3.js`, no dotenv, no express).
+**Zero runtime dependencies** — Node 22.13+ built-ins only (`node:sqlite`, `node:crypto` ed25519, `fetch`, `node:http`). Dev deps are just `typescript`, `tsx`, `@types/node`. Keep it that way: do not add runtime packages (no `@solana/web3.js`, no dotenv, no express). This rule applies to the scanner at the repo root only — `ecosystem-map/` is a separate Vite sub-app with its own dependencies.
 
 ## Commands
 
@@ -48,6 +48,10 @@ Data flow: `sources/*` fetch → `db.ts` upsert → `scoring.ts` rescore → `al
 - Tokens still on the TRiX bonding curve cannot be traded by the CLI (Jupiter only routes bonded/Raydium tokens); curve buys happen on trix.market itself.
 - Amounts are handled in raw units as `bigint` (lamports, token raw amounts) — don't switch to floating point in trade paths.
 - `WALLET_SECRET` is a real hot-wallet key. Never log, echo, or commit it; `.env` is git-ignored.
+
+## ecosystem-map/ (separate sub-app)
+
+An interactive ecosystem/strategy atlas built with Vite + React 19 + TypeScript + Tailwind v4 + React Flow (@xyflow/react). Run with `npm run dev` / build with `npm run build` **inside `ecosystem-map/`** (its own package.json and node_modules). Theming is pure CSS variables in `src/index.css` (`:root` light, `.dark` dark; React Flow's `--xy-*` vars are overridden there too). All diagram content — nodes, edges, zones, categories — lives in `src/data/graph.ts`; edge handle sides are auto-computed from node geometry at module load, so just position nodes and the edges route themselves.
 
 ## Planned extensions
 

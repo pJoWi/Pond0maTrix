@@ -1,7 +1,9 @@
 import { useCallback } from "react";
 import { Panel, useReactFlow } from "@xyflow/react";
+import * as Separator from "@radix-ui/react-separator";
 import clsx from "clsx";
 import { ArrowLeft, LayoutDashboard, Play, Plus, Redo2, Undo2 } from "lucide-react";
+import { Tip } from "../../../components/ui/Tip";
 import type { AutoLayoutApi } from "../hooks/useAutoLayout";
 import { useWorkflowHistory } from "../hooks/useWorkflowHistory";
 import { KIND_ACCENT, KIND_ICON, KIND_LABEL, KIND_ORDER } from "../schema/kinds";
@@ -45,56 +47,65 @@ export function CanvasToolbar({ layout, onExit }: Props) {
       <div className="flex items-center gap-1 rounded-2xl border border-line bg-surface/80 p-2 shadow-2xl shadow-black/20 backdrop-blur-md">
         {onExit && (
           <>
-            <button type="button" onClick={onExit} title="Back to the atlas" className={iconButton}>
-              <ArrowLeft size={13} />
-              atlas
-            </button>
-            <span className="mx-1 h-5 w-px bg-line-strong" />
+            <Tip label="Back to the atlas">
+              <button type="button" onClick={onExit} className={iconButton}>
+                <ArrowLeft size={13} />
+                atlas
+              </button>
+            </Tip>
+            <Separator.Root orientation="vertical" decorative className="mx-1 h-5 w-px bg-line-strong" />
           </>
         )}
         <span className="px-1.5 font-display text-[11px] font-semibold tracking-[0.2em] text-ink">WORKFLOW</span>
-        <span className="mx-1 h-5 w-px bg-line-strong" />
+        <Separator.Root orientation="vertical" decorative className="mx-1 h-5 w-px bg-line-strong" />
         {KIND_ORDER.map((kind) => {
           const Icon = KIND_ICON[kind];
           return (
-            <button
-              key={kind}
-              type="button"
-              onClick={() => addNode(kind)}
-              title={`Add ${KIND_LABEL[kind].toLowerCase()} node`}
-              className={iconButton}
-              style={{ color: `var(${KIND_ACCENT[kind]})` }}
-            >
-              <Plus size={11} />
-              <Icon size={13} />
-              {KIND_LABEL[kind].toLowerCase()}
-            </button>
+            <Tip key={kind} label={`Add ${KIND_LABEL[kind].toLowerCase()} node`}>
+              <button
+                type="button"
+                onClick={() => addNode(kind)}
+                className={iconButton}
+                style={{ color: `var(${KIND_ACCENT[kind]})` }}
+              >
+                <Plus size={11} />
+                <Icon size={13} />
+                {KIND_LABEL[kind].toLowerCase()}
+              </button>
+            </Tip>
           );
         })}
       </div>
 
       <div className="flex items-center gap-1 rounded-2xl border border-line bg-surface/80 p-2 shadow-2xl shadow-black/20 backdrop-blur-md">
-        <button type="button" onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)" className={iconButton}>
-          <Undo2 size={13} />
-        </button>
-        <button type="button" onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)" className={iconButton}>
-          <Redo2 size={13} />
-        </button>
-        <span className="mx-1 h-5 w-px bg-line-strong" />
-        <button type="button" onClick={() => layout.runLayout()} disabled={nodeCount === 0} title="Auto-layout (dagre, left → right)" className={iconButton}>
-          <LayoutDashboard size={13} />
-          layout
-        </button>
-        <button
-          type="button"
-          onClick={() => void simulateRun()}
-          disabled={nodeCount === 0 || running}
-          title="Simulate a run through the DAG"
-          className={clsx(iconButton, running && "text-ink")}
-        >
-          <Play size={13} />
-          {running ? "running…" : "simulate"}
-        </button>
+        <Tip label="Undo (Ctrl+Z)">
+          <button type="button" onClick={undo} disabled={!canUndo} className={iconButton}>
+            <Undo2 size={13} />
+          </button>
+        </Tip>
+        <Tip label="Redo (Ctrl+Shift+Z)">
+          <button type="button" onClick={redo} disabled={!canRedo} className={iconButton}>
+            <Redo2 size={13} />
+          </button>
+        </Tip>
+        <Separator.Root orientation="vertical" decorative className="mx-1 h-5 w-px bg-line-strong" />
+        <Tip label="Auto-layout (dagre, left → right)">
+          <button type="button" onClick={() => layout.runLayout()} disabled={nodeCount === 0} className={iconButton}>
+            <LayoutDashboard size={13} />
+            layout
+          </button>
+        </Tip>
+        <Tip label="Simulate a run through the DAG">
+          <button
+            type="button"
+            onClick={() => void simulateRun()}
+            disabled={nodeCount === 0 || running}
+            className={clsx(iconButton, running && "text-ink")}
+          >
+            <Play size={13} />
+            {running ? "running…" : "simulate"}
+          </button>
+        </Tip>
       </div>
     </Panel>
   );

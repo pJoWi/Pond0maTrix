@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { ReactFlowProvider } from "@xyflow/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { seedWorkflowStore } from "../data/seed";
 import type { AutoLayoutApi } from "../hooks/useAutoLayout";
 import { useWorkflowStore } from "../store/useWorkflowStore";
@@ -42,9 +43,11 @@ export function WorkflowCanvas({ seed = true, onExit }: Props) {
 
   return (
     <div className="atmosphere relative h-full">
-      <ReactFlowProvider>
-        <CanvasViewport renderOverlay={renderOverlay} />
-      </ReactFlowProvider>
+      <Tooltip.Provider delayDuration={300} skipDelayDuration={500}>
+        <ReactFlowProvider>
+          <CanvasViewport renderOverlay={renderOverlay} />
+        </ReactFlowProvider>
+      </Tooltip.Provider>
     </div>
   );
 }

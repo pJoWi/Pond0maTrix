@@ -9,6 +9,7 @@ import {
   type Node,
   type NodeMouseHandler,
 } from "@xyflow/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { CardNode } from "./components/nodes/CardNode";
 import { ZoneNode } from "./components/nodes/ZoneNode";
 import { HeaderBar } from "./components/HeaderBar";
@@ -21,6 +22,15 @@ type View = "atlas" | "workflow";
 const readViewFromUrl = (): View => (new URLSearchParams(window.location.search).get("view") === "workflow" ? "workflow" : "atlas");
 
 const nodeTypes = { card: CardNode, zone: ZoneNode };
+
+/* Minimap echoes the category palette: solid-ish dots for cards, faint washes for zones. */
+const minimapNodeColor = (n: Node): string => {
+  const category = (n.data as { category?: Category }).category;
+  if (!category) return "var(--line-strong)";
+  return n.type === "card"
+    ? `color-mix(in srgb, var(--c-${category}) 70%, transparent)`
+    : `color-mix(in srgb, var(--c-${category}) 12%, transparent)`;
+};
 
 export default function App() {
   const [dark, setDark] = useState(true);
@@ -70,6 +80,7 @@ export default function App() {
 
   return (
     <div className="atmosphere relative h-full">
+      <Tooltip.Provider delayDuration={300} skipDelayDuration={500}>
       <ReactFlowProvider>
         <ReactFlow
           nodes={nodes}
@@ -90,11 +101,12 @@ export default function App() {
         >
           <Background variant={BackgroundVariant.Dots} gap={26} size={1.4} color="var(--line-strong)" />
           <Controls position="bottom-left" showInteractive={false} />
-          <MiniMap position="bottom-right" pannable zoomable nodeStrokeWidth={0} />
+          <MiniMap position="bottom-right" pannable zoomable nodeStrokeWidth={0} nodeColor={minimapNodeColor} nodeBorderRadius={4} />
           <HeaderBar dark={dark} onToggleTheme={toggleTheme} focus={focus} onFocus={setFocus} onOpenWorkflow={() => switchView("workflow")} />
         </ReactFlow>
         <DetailPanel data={selected} onClose={() => setSelected(null)} />
       </ReactFlowProvider>
+      </Tooltip.Provider>
     </div>
   );
 }

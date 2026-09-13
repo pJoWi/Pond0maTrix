@@ -302,3 +302,61 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;
 }
+
+/* ------------------------------------------------------------------ Radix */
+
+/* Tooltip: quick fade + drift from the anchor side */
+.tip-content {
+  animation: tip-in 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+}
+@keyframes tip-in {
+  from { opacity: 0; transform: scale(0.94) translateY(-2px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Detail panel: slide in/out from the right edge (Radix keeps the node
+   mounted until the closed-state animation finishes) */
+.detail-panel[data-state="open"] {
+  animation: panel-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.detail-panel[data-state="closed"] {
+  animation: panel-out 0.22s ease-in forwards;
+}
+@keyframes panel-in {
+  from { opacity: 0; transform: translateX(calc(100% + 2rem)); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes panel-out {
+  to { opacity: 0; transform: translateX(calc(100% + 2rem)); }
+}
+
+/* Scroll area: slim tinted rail, thumb color set per-category inline */
+.sa-scrollbar {
+  display: flex;
+  width: 8px;
+  padding: 2px;
+  touch-action: none;
+  user-select: none;
+  background: transparent;
+  transition: background 0.15s ease;
+}
+.sa-scrollbar:hover {
+  background: color-mix(in srgb, var(--line) 60%, transparent);
+}
+.sa-thumb {
+  position: relative;
+  flex: 1;
+  border-radius: 999px;
+}
+/* enlarge the hit area without fattening the rail */
+.sa-thumb::before {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  min-width: 24px;
+  height: 100%;
+  min-height: 24px;
+}

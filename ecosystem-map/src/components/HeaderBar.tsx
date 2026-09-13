@@ -1,5 +1,5 @@
 import { useReactFlow } from "@xyflow/react";
-import { Maximize2, Moon, Sun } from "lucide-react";
+import { Maximize2, Moon, Sun, Workflow } from "lucide-react";
 import { CATEGORY_META, type Category } from "../data/graph";
 
 interface Props {
@@ -7,9 +7,10 @@ interface Props {
   onToggleTheme: () => void;
   focus: Category | null;
   onFocus: (c: Category | null) => void;
+  onOpenWorkflow?: () => void;
 }
 
-export function HeaderBar({ dark, onToggleTheme, focus, onFocus }: Props) {
+export function HeaderBar({ dark, onToggleTheme, focus, onFocus, onOpenWorkflow }: Props) {
   const { fitView } = useReactFlow();
   return (
     <header className="pointer-events-none absolute inset-x-0 top-0 z-40 flex flex-wrap items-start justify-between gap-3 p-4">
@@ -54,6 +55,15 @@ export function HeaderBar({ dark, onToggleTheme, focus, onFocus }: Props) {
           );
         })}
         <span className="mx-1 h-5 w-px bg-line-strong" />
+        {onOpenWorkflow && (
+          <button
+            onClick={onOpenWorkflow}
+            title="Open workflow canvas"
+            className="cursor-pointer rounded-lg p-2 text-muted transition-colors hover:bg-surface-2 hover:text-ink"
+          >
+            <Workflow size={14} />
+          </button>
+        )}
         <button
           onClick={() => fitView({ padding: 0.15, duration: 500 })}
           title="Fit view"

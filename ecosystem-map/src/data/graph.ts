@@ -54,57 +54,132 @@ const card = (id: string, x: number, y: number, data: CardData): Node<CardData> 
 
 export const initialNodes: Node[] = [
   // ------------------------------------------------------------- territories
-  zone("z-pond0x", 40, 90, 430, 580, { label: "POND0X CORE", sub: "the ecosystem gravity well", category: "pond0x", labelPos: "bottom" }),
-  zone("z-trix", 530, 90, 1030, 580, { label: "TRIX LAUNCHPAD", sub: "trix.market · launch lifecycle", category: "trix" }),
-  zone("z-infra", 1620, 90, 530, 580, { label: "SOLANA RAILS", sub: "external infrastructure", category: "infra" }),
-  zone("z-scout", 380, 760, 1230, 490, { label: "POND-SCOUT", sub: "this repo · scanner → score → act", category: "scout" }),
-  zone("z-strategy", 1660, 760, 320, 900, { label: "PLAYBOOK", sub: "five strategies, one edge", category: "strategy" }),
+  zone("z-pond0x", 40, 90, 740, 700, { label: "POND0X CORE", sub: "cross-chain activity engine · everything flows back here", category: "pond0x", labelPos: "bottom" }),
+  zone("z-trix", 840, 90, 1030, 580, { label: "TRIX LAUNCHPAD", sub: "trix.market · launch lifecycle", category: "trix" }),
+  zone("z-infra", 1930, 90, 530, 580, { label: "SOLANA RAILS", sub: "external infrastructure", category: "infra" }),
+  zone("z-scout", 380, 860, 1230, 490, { label: "POND-SCOUT", sub: "this repo · scanner → score → act", category: "scout" }),
+  zone("z-strategy", 1660, 860, 320, 900, { label: "PLAYBOOK", sub: "five strategies, one edge", category: "strategy" }),
 
   // ------------------------------------------------------------- pond0x core
-  card("pond0x", 130, 170, {
-    title: "Pond0x — Hwonder & Pauly0x",
+  card("pond0x", 100, 160, {
+    title: "Pond0x — PondD🤝X",
     tag: "ORIGIN",
-    caption: "The ecosystem project of Hwonder and Pauly0x; culture is the moat.",
+    caption: "Cross-chain activity engine by Hwonder & Pauly0x; culture is the moat.",
     category: "pond0x",
     icon: "sparkles",
     blurb:
-      "Pond0x is the ecosystem project of Hwonder and Pauly0x. Its products (swap, mining) share one audience — the Pond community — and one meta-strategy: attention compounds across everything the ecosystem ships. TRiX, Jimmy Edgar's launchpad, plugs into that same audience.",
+      "Pond0x (PondD🤝X) is the gravity well of this map: check in, mine in-browser, swap, lock water, spawn, bid in auctions — one paired account settling on Ethereum + Solana. The operator of record in the Terms is Pond Issuer Limited (BVI), and every reward is explicitly discretionary. TRiX, Jimmy Edgar's launchpad, plugs into this audience — and every flow on this map eventually cycles back here.",
     points: [
-      "Founder attention (a mention, a boost) is a real price catalyst inside the ecosystem",
-      "New TRiX tokens inherit the Pond audience on day one",
-      "Culture-first: memes and mining rituals drive usage, not roadmaps",
+      "Products: Check-in · Mine · Swap · Water · Spawn · Auction",
+      "Settlement on Ethereum + Solana, one paired account",
+      "Rewards are discretionary, never promised (Terms: Pond Issuer Limited, BVI)",
+      "Sources: pond0x.com FAQs · docs.pond0x.com/terms · Dune 'Pond D🤝X' · Cary0x notes (unofficial)",
     ],
     link: { label: "pond0x.com", url: "https://pond0x.com" },
   }),
-  card("pndc", 110, 340, {
-    title: "$PNDC · Pond Coin",
-    tag: "TOKEN",
-    caption: "The ecosystem's flagship token and loyalty flywheel.",
+  card("checkin", 430, 160, {
+    title: "Check-in",
+    tag: "ACCOUNT",
+    caption: "Pairs Ethereum + Solana wallets (and X) into one Pond account.",
+    category: "pond0x",
+    icon: "user-check",
+    blurb:
+      "Everything starts with a check-in: it pairs wallets across Ethereum and Solana (plus your X handle) into a single Pond identity, so mining boosts, swap rewards, locks and spawns all accrue to one account across both settlement chains.",
+    points: [
+      "The entry gate for mining, spawning and rewards",
+      "Teleport migrates legacy Ethereum badges into the paired account",
+      "One identity, two chains — the cross-chain glue of the engine",
+    ],
+  }),
+  card("swap", 100, 315, {
+    title: "Swap — Pond D🤝X",
+    tag: "DEX",
+    caption: "'GigaSwap': aggregated swaps on ETH + SOL; fees feed the reward pool.",
+    category: "pond0x",
+    icon: "arrow-left-right",
+    blurb:
+      "The Pond DEX (community nickname: GigaSwap) aggregates liquidity across DEXes, bridges and chains on both Ethereum and Solana. A ~1% swap fee flows to the reward safe, and swap rewards stream back to active swappers weighted by frequency, volume and tokens — at the operator's discretion.",
+    points: [
+      "Referral links (Friends) share swap rewards",
+      "Volume and fees are public on the Dune 'Pond D🤝X' dashboard",
+      "Rewards are discretionary — there is no promised APR",
+    ],
+    link: { label: "Dune: Pond D🤝X", url: "https://dune.com/mogie/pond-dex" },
+  }),
+  card("water", 430, 315, {
+    title: "Pondwater — $wPOND Lock",
+    tag: "LOCK",
+    caption: "Lock $wPOND for a term → pondSOL stream + mining boost.",
+    category: "pond0x",
+    icon: "droplets",
+    blurb:
+      "Water locks $wPOND for a chosen period in exchange for a stream of pondSOL while the lock is active. Every active lock also boosts your miner — unlock and the boost disappears; when the term expires, the stream stops. Locks are public on the PondWater Explorer.",
+    points: [
+      "Longer locks → stronger stream terms",
+      "Each active lock raises your mining boost",
+      "Stream ends at expiry; early unlock drops the boost",
+    ],
+    link: { label: "pondwater.pond0x.com", url: "https://pondwater.pond0x.com" },
+  }),
+  card("tokens", 100, 470, {
+    title: "$PNDC · $wPOND · pondSOL",
+    tag: "TOKENS",
+    caption: "Flagship on Ethereum, workhorse on Solana, stream from locks.",
     category: "pond0x",
     icon: "coins",
     blurb:
-      "Pond Coin is the flagship ecosystem token. Holding and using it inside Pond0x dApps is how the community keeps score — and the holder base is the distribution channel every TRiX launch taps into.",
+      "$PNDC (Pond Coin) is the flagship ERC-20 on Ethereum. $wPOND is the Solana workhorse: mined in-browser, locked in Water, spent inside the flywheel. pondSOL is what active water locks stream. Together their holder base is the distribution channel every ecosystem launch — TRiX included — taps first.",
     points: [
-      "Flagship asset of the Pond0x ecosystem",
-      "Its holder base = the initial buyer pool for ecosystem launches",
+      "$PNDC: flagship token, Ethereum ERC-20",
+      "$wPOND: mined + locked on Solana",
+      "pondSOL: streamed by active Water locks",
     ],
   }),
-  card("mining", 170, 500, {
-    title: "Swap & Mining — MINE HARDER",
+  card("mining", 430, 470, {
+    title: "Mining — MINE HARDER",
     tag: "DAPP",
-    caption: "Fee-generating swap + mining ritual that keeps the crowd engaged daily.",
+    caption: "In-browser miner: solve + validate hashes, earn $wPOND.",
     category: "pond0x",
     icon: "pickaxe",
     blurb:
-      "The Pond0x swap and mining dApps give the community a daily ritual ('MINE HARDER'). That recurring engagement is the attention reservoir that TRiX launches drain into: an active crowd that is already on-chain, already primed to ape early.",
+      "The daily ritual. The in-browser miner solves and validates hashes and pays out $wPOND. Boosts stack from Water locks, PRO status and Auction hashpower — and mining claims are what trigger Spawn events. The MINE HARDER crowd is the attention reservoir TRiX launches drain into.",
     points: [
+      "Earns $wPOND; claims can trigger Spawns",
+      "Boosted by Water locks, PRO and Auctions",
       "Daily active ritual → persistent, reachable audience",
-      "The MINE HARDER pattern names the play: position early in ecosystem assets before attention arrives",
+    ],
+  }),
+  card("spawn", 100, 625, {
+    title: "Spawn",
+    tag: "EVENT",
+    caption: "Mining claims trigger spawns that mint you an ecosystem token.",
+    category: "pond0x",
+    icon: "egg",
+    blurb:
+      "Spawns convert mining activity into other pond tokens: time-limited events, triggered by mining claims, that pay out whichever eligible token has the highest supply at spawn time — you don't pick. Rank burns let the crowd influence upcoming spawns.",
+    points: [
+      "Triggered by mining claims, deployed on Solana",
+      "Payout = the highest-supply eligible token at spawn time",
+      "Activity → tokens → back into the pond",
+    ],
+  }),
+  card("auction", 430, 625, {
+    title: "Auction",
+    tag: "HASHPOWER",
+    caption: "Rent the pond's collective hashpower to boost a token.",
+    category: "pond0x",
+    icon: "gavel",
+    blurb:
+      "Auctions rent out the community's collective processing power: bidders point the pond's mining at a specific token to boost it, while miners keep earning rewards. Paid attention as a native primitive — the same mechanic TRiX boosts sell, one level deeper.",
+    points: [
+      "Bid hashpower toward a token of choice",
+      "Participants keep earning mining rewards",
+      "Attention is a market inside the pond too",
     ],
   }),
 
   // ---------------------------------------------------------- trix lifecycle
-  card("jimmy", 545, 430, {
+  card("jimmy", 855, 430, {
     title: "Jimmy Edgar — void.solutions",
     tag: "BUILDER",
     caption: "Electronic musician; creator of void.solutions and trix.market.",
@@ -119,7 +194,7 @@ export const initialNodes: Node[] = [
     ],
     link: { label: "void.solutions", url: "https://void.solutions" },
   }),
-  card("creator", 600, 170, {
+  card("creator", 910, 170, {
     title: "Creator",
     tag: "ACTOR",
     caption: "TRiX profile: username, verification, points, launch history.",
@@ -133,7 +208,7 @@ export const initialNodes: Node[] = [
       "pond-scout rebuilds full creator history from the TRiX catalogue hourly",
     ],
   }),
-  card("launch", 890, 170, {
+  card("launch", 1200, 170, {
     title: "Token Launch",
     tag: "EVENT",
     caption: "New SPL mint appears on trix.market with metadata + curve.",
@@ -148,7 +223,7 @@ export const initialNodes: Node[] = [
     ],
     link: { label: "trix.market", url: "https://trix.market" },
   }),
-  card("curve", 1190, 170, {
+  card("curve", 1500, 170, {
     title: "Bonding Curve",
     tag: "STAGE 1",
     caption: "Price discovery on TRiX's curve. Earliest possible entry.",
@@ -162,7 +237,7 @@ export const initialNodes: Node[] = [
       "Curve tokens still get RugCheck'd for mint/freeze authority",
     ],
   }),
-  card("attention", 830, 430, {
+  card("attention", 1140, 430, {
     title: "Attention Layer",
     tag: "SIGNAL",
     caption: "Paid boosts + coin verification = who the crowd is looking at.",
@@ -176,7 +251,7 @@ export const initialNodes: Node[] = [
       "Attention precedes volume — that's the whole edge",
     ],
   }),
-  card("bond", 1190, 430, {
+  card("bond", 1500, 430, {
     title: "Bond Event",
     tag: "STAGE 2 · CATALYST",
     caption: "Curve graduates → liquidity migrates to a Raydium pool.",
@@ -192,7 +267,7 @@ export const initialNodes: Node[] = [
   }),
 
   // -------------------------------------------------------------- solana rails
-  card("solana", 1650, 160, {
+  card("solana", 1960, 160, {
     title: "Solana",
     tag: "L1",
     caption: "The settlement layer everything here runs on.",
@@ -202,7 +277,7 @@ export const initialNodes: Node[] = [
       "All TRiX launches are SPL tokens on Solana mainnet. Fast blocks and cheap fees are what make a 30-second scan loop and sub-minute reaction times meaningful at all.",
     points: ["SPL token standard, ed25519 signatures", "Priority fees decide inclusion speed in hot moments"],
   }),
-  card("raydium", 1900, 160, {
+  card("raydium", 2210, 160, {
     title: "Raydium Pool",
     tag: "AMM",
     caption: "Destination of bonded liquidity; the 'real market' begins here.",
@@ -212,7 +287,7 @@ export const initialNodes: Node[] = [
       "When a token bonds, its liquidity seeds a Raydium AMM pool. Liquidity depth here decides whether a position can actually be exited — thin pools score negative in pond-scout.",
     points: ["LP lock % (via RugCheck) guards against pulls", "≥ $16K liquidity: +5 · below $8K: −8 score"],
   }),
-  card("dexscreener", 1650, 330, {
+  card("dexscreener", 1960, 330, {
     title: "DexScreener",
     tag: "DATA",
     caption: "Pair discovery, liquidity, buys/sells, volume.",
@@ -222,7 +297,7 @@ export const initialNodes: Node[] = [
       "DexScreener's public API is pond-scout's eyes on the open market: it detects the bond (a SOL pair exists), then supplies liquidity, 24h buy/sell counts and volume for flow scoring.",
     points: ["Bond detection source of truth", "Buy pressure ≥ 1.5× sells: +5 · sellers dominate: −5"],
   }),
-  card("jupiter", 1900, 330, {
+  card("jupiter", 2210, 330, {
     title: "Jupiter",
     tag: "ROUTER",
     caption: "Swap aggregator — quotes, price impact, execution.",
@@ -232,7 +307,7 @@ export const initialNodes: Node[] = [
       "Jupiter routes swaps across Solana AMMs. pond-scout uses it two ways: read-only quotes to preview price impact for your size, and the actual buy/sell execution path for the manual CLI.",
     points: ["Quote first, always: impact > 15% = position too big", "Swap tx built by Jupiter, signed locally, sent via RPC"],
   }),
-  card("rugcheck", 1650, 500, {
+  card("rugcheck", 1960, 500, {
     title: "RugCheck",
     tag: "SAFETY",
     caption: "Authorities, LP lock %, holder concentration, risk flags.",
@@ -242,7 +317,7 @@ export const initialNodes: Node[] = [
       "RugCheck audits the boring-but-fatal stuff: is mint authority still live (infinite supply risk), is freeze authority live (your tokens can be frozen), how much LP is locked, how concentrated are the top-10 holders.",
     points: ["Mint or freeze authority present → score = 0, no exceptions", "Top-10 ≥ 50% holdings: −12 (dump risk)"],
   }),
-  card("helius", 1900, 500, {
+  card("helius", 2210, 500, {
     title: "Helius RPC",
     tag: "RPC",
     caption: "Balances, transaction send + confirm.",
@@ -254,7 +329,7 @@ export const initialNodes: Node[] = [
   }),
 
   // ---------------------------------------------------------------- pond-scout
-  card("scanner", 440, 850, {
+  card("scanner", 440, 950, {
     title: "Scan Loop",
     tag: "EVERY 30s",
     caption: "Polls TRiX: launches, boosts, verifications, prices.",
@@ -264,7 +339,7 @@ export const initialNodes: Node[] = [
       "The heartbeat. Every 30 seconds it pulls the newest 150 launches plus the attention feeds, upserts everything into SQLite, rescores, and emits alerts. First run seeds silently so 150 tokens don't spam you.",
     points: ["Creator history refreshed hourly from the full catalogue", "Emits NEW_LAUNCH, BOOSTED, SCORE_PASS"],
   }),
-  card("enrich", 440, 1060, {
+  card("enrich", 440, 1160, {
     title: "Enrich Loop",
     tag: "EVERY 120s",
     caption: "Refreshes DexScreener + RugCheck per tracked token.",
@@ -274,7 +349,7 @@ export const initialNodes: Node[] = [
       "For every token younger than 72h (or watchlisted), it refreshes market structure from DexScreener and safety from RugCheck — throttled politely. This is where bonds are detected and BONDED fires.",
     points: ["Detects stage flip curve → bonded", "Emits BONDED and MCAP_2X (watchlist doubles)"],
   }),
-  card("scoring", 740, 850, {
+  card("scoring", 740, 950, {
     title: "Scoring Engine",
     tag: "0 – 100",
     caption: "Every rule explicit, every reason in plain English.",
@@ -284,7 +359,7 @@ export const initialNodes: Node[] = [
       "The judge. Weighs mcap window (≤25), freshness (≤15), stage (≤10), attention (≤15), creator reputation (±15), safety (±), and — for bonded tokens — liquidity and flow (≤10). Hard zeros for authorities and test tokens. The dashboard shows the full reason list for every score.",
     points: ["Alert threshold: score ≥ 65 → SCORE_PASS", "Reasons stored as JSON, rendered in the dashboard 'why' panel"],
   }),
-  card("db", 740, 1060, {
+  card("db", 740, 1160, {
     title: "SQLite Memory",
     tag: "node:sqlite · WAL",
     caption: "Tokens, alerts, snapshots, kv — zero dependencies.",
@@ -294,7 +369,7 @@ export const initialNodes: Node[] = [
       "One WAL-mode SQLite file holds everything: token rows (the central TokenRow shape), the alert log (also used for dedup — one alert per mint per kind), and mcap/price/score snapshots for history charts.",
     points: ["Snapshots enable the MCAP_2X doubling check", "Alert table doubles as idempotency guard"],
   }),
-  card("alerts", 1040, 850, {
+  card("alerts", 1040, 950, {
     title: "Alert Bus",
     tag: "5 KINDS",
     caption: "NEW_LAUNCH · BONDED · BOOSTED · SCORE_PASS · MCAP_2X",
@@ -304,7 +379,7 @@ export const initialNodes: Node[] = [
       "An EventEmitter fanning out to three sinks: the console, the dashboard (SSE push + beep on the important ones), and an optional webhook in Discord/Slack-compatible shape for n8n or Telegram bridges.",
     points: ["SSE = zero-latency dashboard updates", "Webhook payload carries mint, score and deep links"],
   }),
-  card("dashboard", 1330, 850, {
+  card("dashboard", 1330, 950, {
     title: "Live Dashboard",
     tag: "127.0.0.1:8787",
     caption: "Score, reasons, size-impact check, one-click links.",
@@ -314,7 +389,7 @@ export const initialNodes: Node[] = [
       "A single-file, framework-free dashboard over plain node:http. It shows every tracked token with score + reasons, streams alerts live over SSE, runs a read-only Jupiter price-impact check for your size, and links out to TRiX / DexScreener / RugCheck.",
     points: ["The human decides here — the tool only argues its case", "Watchlist toggle feeds the MCAP_2X watcher"],
   }),
-  card("wallet", 1040, 1060, {
+  card("wallet", 1040, 1160, {
     title: "Hot Wallet",
     tag: "ed25519 · LOCAL",
     caption: "Base58 key, signs Jupiter txs by hand. Never leaves disk.",
@@ -324,7 +399,7 @@ export const initialNodes: Node[] = [
       "A dedicated, small hot wallet. Signing is done with Node's built-in ed25519 against Jupiter's serialized transaction — the byte layout is parsed manually (compact-u16, static keys) and only the signed bytes go to the RPC.",
     points: ["Phantom-format base58 secret, 32- or 64-byte", "Dedicated wallet, dust-sized balance — by design"],
   }),
-  card("cli", 1330, 1060, {
+  card("cli", 1330, 1160, {
     title: "Trading CLI",
     tag: "MANUAL ONLY",
     caption: "quote · buy · sell · wallet · score — with hard rails.",
@@ -336,7 +411,7 @@ export const initialNodes: Node[] = [
   }),
 
   // ------------------------------------------------------------------ playbook
-  card("s1", 1700, 830, {
+  card("s1", 1700, 930, {
     title: "Early Window Entry",
     tag: "PLAY 01",
     caption: "Fresh launch, $5K–$250K mcap, before the crowd.",
@@ -346,7 +421,7 @@ export const initialNodes: Node[] = [
       "The core MINE HARDER pattern: take a small position in a fresh ecosystem launch while mcap sits inside the early window, betting that ecosystem attention finds it. Freshness and window position are the two biggest score components — deliberately.",
     points: ["Window: MCAP_MIN 5K → MCAP_MAX 250K (tunable)", "< 1h old is worth nearly a fifth of the max score", "Entry on-curve happens on trix.market itself"],
   }),
-  card("s2", 1700, 1000, {
+  card("s2", 1700, 1100, {
     title: "Bond Catalyst",
     tag: "PLAY 02",
     caption: "Buy the graduation — first 3h after Raydium listing.",
@@ -356,7 +431,7 @@ export const initialNodes: Node[] = [
       "Bonding turns a closed curve into an open market: Jupiter routing, screener listings, bot flow. The play is entering just-bonded tokens with real liquidity, inside the catalyst window, before broader discovery.",
     points: ["BONDED alert = the starting gun", "Check liquidity ≥ $8K and LP lock before size", "Catalyst premium decays after ~3 hours"],
   }),
-  card("s3", 1700, 1170, {
+  card("s3", 1700, 1270, {
     title: "Safety Gate",
     tag: "PLAY 03 · VETO",
     caption: "Hard zeros: authorities, test tokens, dust caps.",
@@ -366,7 +441,7 @@ export const initialNodes: Node[] = [
       "Not a scoring nudge — a veto. Live mint authority, live freeze authority, 'test / do not buy' names, and dust mcaps zero the score outright. Low LP lock and concentrated top-10 holders take heavy penalties. The scanner reduces obvious rugs; it does not make this safe.",
     points: ["Mint/freeze authority present → score 0", "LP < 50% locked: −15 · top-10 ≥ 50%: −12", "RugCheck flags (honeypot, copycat…) stack −6 each"],
   }),
-  card("s4", 1700, 1340, {
+  card("s4", 1700, 1440, {
     title: "Creator Reputation",
     tag: "PLAY 04",
     caption: "Back proven builders, fade serial rug launchers.",
@@ -376,7 +451,7 @@ export const initialNodes: Node[] = [
       "TRiX makes creator history public, so use it: verified creators with points and a previous $100K+ launch earn trust; wallets with a graveyard of dead launches get faded automatically.",
     points: ["Best other launch ≥ $100K: +5", "≥ 3 dead launches outnumbering alive ones: −10", "First-time creators: neutral — no history, no bonus"],
   }),
-  card("s5", 1700, 1510, {
+  card("s5", 1700, 1610, {
     title: "Exit Discipline",
     tag: "PLAY 05",
     caption: "Watchlist, doubling alerts, partial sells. Plan the exit first.",
@@ -431,12 +506,23 @@ function routed(e: Edge): Edge {
 }
 
 const rawEdges: Edge[] = [
-  // pond0x internals → attention feeds the launchpad
-  edge("e-pond0x-pndc", "pond0x", "pndc", "flow", "created"),
-  edge("e-pond0x-mining", "pond0x", "mining", "flow", "operates"),
-  edge("e-pndc-mining", "pndc", "mining", "flow"),
+  // pond0x flywheel: check in → mine → wPOND → lock → boost → mine harder
+  edge("e-pond0x-checkin", "pond0x", "checkin", "flow", "pair ETH + SOL"),
+  edge("e-checkin-swap", "checkin", "swap", "flow", "one account · both chains"),
+  edge("e-mining-tokens", "mining", "tokens", "flow", "mines $wPOND", true),
+  edge("e-tokens-water", "tokens", "water", "flow", "lock $wPOND"),
+  edge("e-water-mining", "water", "mining", "flow", "mining boost ↑", true),
+  edge("e-mining-spawn", "mining", "spawn", "flow", "claims open spawns"),
+  edge("e-spawn-tokens", "spawn", "tokens", "flow", "highest-supply token"),
+  edge("e-auction-mining", "auction", "mining", "flow", "rented hashpower"),
+  edge("e-swap-pond0x", "swap", "pond0x", "flow", "~1% fee → reward pool", true),
+
+  // attention feeds the launchpad — and compounds back into the pond
   edge("e-mining-attention", "mining", "attention", "flow", "MINE HARDER crowd", true),
   edge("e-jimmy-attention", "jimmy", "attention", "trix", "runs boosts · verify"),
+  edge("e-attention-pond0x", "attention", "pond0x", "flow", "attention compounds"),
+  edge("e-raydium-swap", "raydium", "swap", "flow", "liquidity aggregated by Pond D🤝X"),
+  edge("e-cli-pond0x", "cli", "pond0x", "flow", "edge rotates back into the pond"),
 
   // trix lifecycle
   edge("e-creator-launch", "creator", "launch", "trix", "deploys", true),

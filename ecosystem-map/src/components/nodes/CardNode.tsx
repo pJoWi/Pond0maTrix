@@ -1,9 +1,10 @@
 import type { CSSProperties } from "react";
 import { Handle, Position, type NodeProps, type Node } from "@xyflow/react";
 import {
-  Bell, Coins, Database, Fingerprint, Gauge, KeyRound, Layers, LogOut, Megaphone,
-  Monitor, Pickaxe, Radar, RefreshCw, Rocket, Route, Scan, Server, Shield, ShieldAlert,
-  Sparkles, Sunrise, Terminal, TrendingUp, User, Wand2, Waves, Zap, type LucideIcon,
+  ArrowLeftRight, Bell, Coins, Database, Droplets, Egg, Fingerprint, Gauge, Gavel, KeyRound,
+  Layers, LogOut, Megaphone, Monitor, Pickaxe, Radar, RefreshCw, Rocket, Route, Scan, Server,
+  Shield, ShieldAlert, Sparkles, Sunrise, Terminal, TrendingUp, User, UserCheck, Wand2, Waves,
+  Zap, type LucideIcon,
 } from "lucide-react";
 import type { CardData } from "../../data/graph";
 
@@ -13,7 +14,8 @@ const ICONS: Record<string, LucideIcon> = {
   radar: Radar, route: Route, shield: Shield, server: Server, scan: Scan, refresh: RefreshCw,
   gauge: Gauge, database: Database, bell: Bell, monitor: Monitor, key: KeyRound,
   terminal: Terminal, sunrise: Sunrise, "shield-alert": ShieldAlert, fingerprint: Fingerprint,
-  "log-out": LogOut, wand: Wand2,
+  "log-out": LogOut, wand: Wand2, "user-check": UserCheck, "arrow-left-right": ArrowLeftRight,
+  droplets: Droplets, egg: Egg, gavel: Gavel,
 };
 
 export function CardNode({ data, selected }: NodeProps<Node<CardData>>) {

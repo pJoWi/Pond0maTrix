@@ -14,6 +14,11 @@ import { ZoneNode } from "./components/nodes/ZoneNode";
 import { HeaderBar } from "./components/HeaderBar";
 import { DetailPanel } from "./components/DetailPanel";
 import { EDGE_CATEGORY, initialEdges, initialNodes, type CardData, type Category } from "./data/graph";
+import { WorkflowCanvas } from "./features/workflow-canvas";
+
+type View = "atlas" | "workflow";
+
+const readViewFromUrl = (): View => (new URLSearchParams(window.location.search).get("view") === "workflow" ? "workflow" : "atlas");
 
 const nodeTypes = { card: CardNode, zone: ZoneNode };
 
@@ -21,6 +26,15 @@ export default function App() {
   const [dark, setDark] = useState(true);
   const [focus, setFocus] = useState<Category | null>(null);
   const [selected, setSelected] = useState<CardData | null>(null);
+  const [view, setView] = useState<View>(readViewFromUrl);
+
+  const switchView = useCallback((next: View) => {
+    setView(next);
+    const url = new URL(window.location.href);
+    if (next === "workflow") url.searchParams.set("view", "workflow");
+    else url.searchParams.delete("view");
+    window.history.replaceState(null, "", url);
+  }, []);
 
   const toggleTheme = useCallback(() => {
     setDark((d) => {
@@ -52,6 +66,8 @@ export default function App() {
     if (node.type === "card") setSelected(node.data as CardData);
   }, []);
 
+  if (view === "workflow") return <WorkflowCanvas onExit={() => switchView("atlas")} />;
+
   return (
     <div className="atmosphere relative h-full">
       <ReactFlowProvider>
@@ -75,7 +91,7 @@ export default function App() {
           <Background variant={BackgroundVariant.Dots} gap={26} size={1.4} color="var(--line-strong)" />
           <Controls position="bottom-left" showInteractive={false} />
           <MiniMap position="bottom-right" pannable zoomable nodeStrokeWidth={0} />
-          <HeaderBar dark={dark} onToggleTheme={toggleTheme} focus={focus} onFocus={setFocus} />
+          <HeaderBar dark={dark} onToggleTheme={toggleTheme} focus={focus} onFocus={setFocus} onOpenWorkflow={() => switchView("workflow")} />
         </ReactFlow>
         <DetailPanel data={selected} onClose={() => setSelected(null)} />
       </ReactFlowProvider>

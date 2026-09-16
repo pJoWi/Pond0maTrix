@@ -13,6 +13,7 @@
     "start": "node dist/index.js",
     "scan:once": "tsx src/index.ts --once",
     "cli": "tsx src/cli.ts",
+    "backtest": "tsx src/backtest.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "selftest": "tsx src/selftest.ts"
   },

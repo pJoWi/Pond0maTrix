@@ -6,6 +6,7 @@ import { signTransactionBase64, loadWallet } from "./trade/wallet.js";
 import { scoreToken } from "./scoring.js";
 import { getDb, upsertToken, getToken, listTokens, addAlert, hasAlert } from "./db.js";
 import { config } from "./config.js";
+import { simulateTrade, DEFAULT_PARAMS } from "./backtest.js";
 
 // 1. base58 round trip incl. leading zeros
 const sample = new Uint8Array([0, 0, 1, 2, 3, 255, 128, 7]);
@@ -53,4 +54,50 @@ assert.equal(listTokens({ limit: 10 }).length, 2);
 addAlert({ mint: "TEST", kind: "NEW_LAUNCH", title: "t", body: "b" });
 assert.ok(hasAlert("TEST", "NEW_LAUNCH") && !hasAlert("TEST", "BONDED"));
 console.log("✓ scoring + sqlite");
+
+/* ---------------------------------------------------- backtest simulation */
+{
+  const p = { ...DEFAULT_PARAMS, feeRoundTrip: 0 }; // fee-free maths is easier to assert
+  const at = (h: number) => new Date(Date.UTC(2026, 0, 1, h)).toISOString();
+
+  // flat price → round trip returns the stake
+  const flat = simulateTrade([{ ts: at(0), price: 1 }, { ts: at(1), price: 1 }], p)!;
+  assert.ok(Math.abs(flat.roi) < 1e-9);
+
+  // 2x then back to entry: half sold at 2x, remainder trails out
+  const spike = simulateTrade(
+    [{ ts: at(0), price: 1 }, { ts: at(1), price: 2 }, { ts: at(2), price: 1.4 }],
+    p,
+  )!;
+  assert.equal(spike.exits[0].reason, "take-half");
+  assert.equal(spike.exits[1].reason, "trailing-stop"); // 1.4 <= 0.75 * peak 2
+  assert.ok(Math.abs(spike.roi - 0.7) < 1e-9); // 0.5 tokens @2 + 0.5 @1.4 - 1 stake
+  assert.ok(spike.closed);
+
+  // crash below the hard stop exits everything at once
+  const crash = simulateTrade([{ ts: at(0), price: 1 }, { ts: at(1), price: 0.2 }], p)!;
+  assert.equal(crash.exits.length, 1);
+  assert.equal(crash.exits[0].reason, "hard-stop");
+  assert.ok(Math.abs(crash.roi + 0.8) < 1e-9);
+
+  // a stop that never triggers ends open, marked to the last price
+  const open = simulateTrade([{ ts: at(0), price: 1 }, { ts: at(1), price: 1.2 }], p)!;
+  assert.equal(open.closed, false);
+  assert.equal(open.exits[0].reason, "end-of-data");
+  assert.ok(Math.abs(open.roi - 0.2) < 1e-9);
+
+  // time stop fires once the hold exceeds maxHoldHours
+  const slow = simulateTrade([{ ts: at(0), price: 1 }, { ts: at(60), price: 1.1 }], p)!;
+  assert.equal(slow.exits[0].reason, "time-stop");
+
+  // fees bite both legs: 4% round trip on a flat price loses ~4%
+  const fee = simulateTrade([{ ts: at(0), price: 1 }, { ts: at(1), price: 1 }], DEFAULT_PARAMS)!;
+  assert.ok(fee.roi < -0.039 && fee.roi > -0.041);
+
+  // degenerate input is refused, not crashed on
+  assert.equal(simulateTrade([], DEFAULT_PARAMS), null);
+  assert.equal(simulateTrade([{ ts: at(0), price: 0 }], DEFAULT_PARAMS), null);
+  console.log("✓ backtest simulation");
+}
+
 console.log("all self-tests passed");
